@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Verificar Palíndromo</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+      color: #fff;
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .container {
+      max-width: 800px;
+      background-color: #fff;
+      padding: 50px;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      margin: 0 20px;
+      color: #000000;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    input[type="submit"] {
+      background-color: #ff0;
+      color: #000;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    input[type="submit"]:hover {
+      background-color: #cc0;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-top: 20px;
+    }
+
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+      background-color: #f2f2f2;
+    }
+
+    th {
+      background-color: #ffffff;
+      color: #000000;
+    }
+
+    tr:nth-child(even) {
+      background-color: #000000;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Verificar Palindromo</h1>
+  <form id="palindrome-form">
+    <label for="word">Ingresa una palabra o frase:</label>
+    <input type="text" id="word" required>
+    <input type="submit" value="Guardar">
+  </form>
+
+  <table id="palindrome-table">
+    <tr>
+      <th>Palabra/Frase</th>
+      <th>Es Palindromo</th>
+    </tr>
+  </table>
+</div>
+
+<script>
+  const palindromeForm = document.getElementById('palindrome-form');
+  const palindromeTable = document.getElementById('palindrome-table');
+  const wordsArray = [];
+
+  palindromeForm.addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const wordInput = document.getElementById('word');
+    const word = wordInput.value.trim();
+
+    // Verificar si es un palíndromo
+    const isPalindrome = checkPalindrome(word);
+
+    // Agregar la palabra y la información al array y a la tabla
+    wordsArray.push({ word, isPalindrome });
+    updateTable();
+
+    // Limpiar el campo de entrada
+    wordInput.value = '';
+  });
+
+  function checkPalindrome(word) {
+    const cleanWord = word.toLowerCase().replace(/[^a-zA-Z0-9]/g, '');
+    const reversedWord = cleanWord.split('').reverse().join('');
+    return cleanWord === reversedWord;
+  }
+
+  function updateTable() {
+    palindromeTable.innerHTML = `
+                <tr>
+                    <th>Palabra/Frase</th>
+                    <th>Es Palindromo</th>
+                </tr>
+            `;
+
+    wordsArray.forEach(item => {
+      const row = document.createElement('tr');
+      row.innerHTML = `
+                    <td>${item.word}</td>
+                    <td>${item.isPalindrome ? 'Si es palindromo' : 'No es palindromo'}</td>
+                `;
+      palindromeTable.appendChild(row);
+    });
+  }
+</script>
+</body>
+</html>
